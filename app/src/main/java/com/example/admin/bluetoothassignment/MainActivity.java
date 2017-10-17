@@ -24,8 +24,6 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 12;
-    private boolean mScanning;
-    private Handler mHandler = new Handler();
 
     private static final int REQUEST_ENABLE_BT = 1;
     private static final String TAG = "MainActivityTag";
@@ -80,23 +78,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getMyBondedDevices(Set<BluetoothDevice> pairedDevices) {
-        if (pairedDevices.size() > 0) {
-            // There are paired devices. Get the name and address of each paired device.
-            for (BluetoothDevice device : pairedDevices) {
-                String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress(); // MAC address
-                Log.d(TAG, "getMyBondedDevices: DeviceName: " + deviceName + ", Device Hardware Address: " + deviceHardwareAddress);
-            }
-        }
-    }
-
-    public void getMyBondedDevices(View view) {
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-        getMyBondedDevices(pairedDevices);
-    }
-
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void scanLeDevice() {
 
@@ -104,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScanResult(int callbackType, ScanResult result) {
                 super.onScanResult(callbackType, result);
-                Log.d(TAG, "onScanResult: " + result);
+                Log.d(TAG, "onScanResult: " + result.getDevice());
             }
 
             @Override
